@@ -32,7 +32,7 @@
                 <h3 class="font-semibold text-gray-900 dark:text-white">Services</h3>
                 <ul>
                     <li><a href="#" class="hover:text-blue-700">Suivi en temps réel</a></li>
-                    <li><a href="#" class="hover:text-blue-700">Horaires</a></li>
+                    <!-- <li><a href="#" class="hover:text-blue-700">Horaires</a></li> -->
                     <li><a href="#" class="hover:text-blue-700">Tarifs</a></li>
                 </ul>
             </div>

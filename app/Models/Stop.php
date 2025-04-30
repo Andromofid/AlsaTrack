@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Buc extends Model
+class Stop extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'n_bus',
-        'longitude',
+        'buc_id',
         'latitude',
+        'longitude',
+        'name',
+        'stop_order',
     ];
-    public function stops()
-    {
-        return $this->hasMany(Stop::class);
-    }
+    public function bus()
+{
+    return $this->belongsTo(Buc::class);
+}
+
 }
