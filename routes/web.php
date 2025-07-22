@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\BusTrackingController;
 use App\Http\Controllers\StopController;
 use App\Models\Buc;
@@ -18,13 +19,24 @@ use Illuminate\Support\Facades\Route;
 // for users
 Route::get('/', function () {
     $bus = Buc::all();
-    return view('home',compact('bus'));
+    return view('home', compact('bus'));
 });
-Route::get('/tracking/{bus}',[BusTrackingController::class,'index'])->name('bus.track');
+Route::get('/tracking/{bus}', [BusTrackingController::class, 'index'])->name('bus.track');
 // for bus:
 Route::get('/bus/{bus}', function ($bus) {
     $bus = Buc::find($bus);
-    return view('bus',compact('bus'));
+    return view('bus', compact('bus'));
 });
+
 // for admin :
-Route::resource('stop',StopController::class);
+Route::middleware('admin.guest')->group(function () {
+    Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+});
+
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+// Protected admin area (example)
+Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('stop', StopController::class);
+});

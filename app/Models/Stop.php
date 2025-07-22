@@ -15,6 +15,7 @@ class Stop extends Model
         'longitude',
         'name',
         'stop_order',
+        'direction'
     ];
     public function bus()
 {

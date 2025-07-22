@@ -14,7 +14,8 @@ class StopController extends Controller
      */
     public function index()
     {
-        
+        $buses = Buc::all(); 
+        return view('admin.stops.index', compact('buses'));
     }
 
     /**
@@ -36,13 +37,14 @@ class StopController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $data=$request->validate([
+
+        $data = $request->validate([
             'bucs_id' => 'required|exists:bucs,id',
             'name' => 'required|string|max:255',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
             'stop_order' => 'nullable|integer',
+            'direction' => 'required|string'
         ]);
         Stop::create([
             'buc_id' => $request->bucs_id,
@@ -50,6 +52,7 @@ class StopController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'stop_order' => $request->stop_order,
+            'direction' => $request->direction
         ]);
 
         return redirect()->back()->with('success', 'Stop added successfully!');
@@ -85,10 +88,10 @@ class StopController extends Controller
     public function destroy(string $id)
     {
         $stop = Stop::find($id);
-        if($stop){
+        if ($stop) {
             $stop->delete();
             return redirect()->back()->with('success', 'Stop delete successfully!');
-        }else{
+        } else {
             return back();
         }
     }

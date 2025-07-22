@@ -1,8 +1,8 @@
 <x-app>
     <div class="max-w-5xl mx-auto text-center my-8">
-        <h1 class="text-4xl font-bold text-blue-700">Suivi du Bus #{{ $bus->n_bus }}</h1>
-        <p class="text-gray-600 text-lg mt-2">
-            Suivez en temps réel la position du bus numéro <span class="font-semibold text-blue-600">{{ $bus->n_bus }}</span>.
+        <h1 class="text-4xl font-bold text-black-900">Suivi du Bus numéro <span class="font-semibold text-yellow-700">{{ $bus->n_bus }}</span></h1>
+        <p class="text-black-900 text-lg mt-2">
+            Suivez en temps réel la position du bus .
         </p>
     </div>
 
@@ -117,7 +117,9 @@
                     let latLng = [parseFloat(stop.latitude), parseFloat(stop.longitude)];
                     routePoints.push(latLng);
                     // Optional: marker for each stop
-                    L.marker([parseFloat(stop.latitude), parseFloat(stop.longitude)],{icon:stopIcon}).addTo(map).bindPopup(stop.name);
+                    L.marker([parseFloat(stop.latitude), parseFloat(stop.longitude)], {
+                        icon: stopIcon
+                    }).addTo(map).bindPopup(stop.name);
                 }
             });
             let stopLine = L.polyline(routePoints, {
