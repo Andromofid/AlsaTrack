@@ -21,7 +21,7 @@
 
         <!-- Action Buttons -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a href="#"
+            <a href="{{route('buses.create')}}"
                 class="flex items-center justify-center gap-2 bg-yellow-700 hover:bg-yellow-900 text-white font-bold py-4 px-6 rounded shadow text-center transition">
                 <!-- Icon: Plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -31,7 +31,7 @@
                 <span class="text-base sm:text-lg">Ajouter un bus</span>
             </a>
 
-            <a href="{{ route('stop.index') }}"
+            <a href="{{ route('stops.index') }}"
                 class="flex items-center justify-center gap-2 bg-black text-white hover:bg-yellow-700 font-bold py-4 px-6 rounded shadow text-center transition">
                 <!-- Icon: Map Pin -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"

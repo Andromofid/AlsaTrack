@@ -1,14 +1,36 @@
 <x-app>
-    <div class="max-w-5xl mx-auto text-center my-8">
+    <div class="max-w-5xl mx-auto text-center my-8 mt-20">
         <h1 class="text-4xl font-bold text-black-900">Suivi du Bus numéro <span class="font-semibold text-yellow-700">{{ $bus->n_bus }}</span></h1>
         <p class="text-black-900 text-lg mt-2">
             Suivez en temps réel la position du bus .
         </p>
+
     </div>
+    <div class="mx-4 sm:mx-auto max-w-full sm:max-w-fit text-center font-semibold text-white bg-yellow-700 px-4 py-2 rounded mb-4 shadow-md text-sm sm:text-base">
+        🚌 Affichage des itinéraires :
+        <span class="text-blue-200">Aller (bleu)</span>,
+        <span class="text-red-200">Retour (rouge)</span>
+    </div>
+
 
     <!-- Map Container -->
     <div class="flex justify-center">
         <div id="map" class="w-[90%] md:w-[50%] h-[500px] rounded-lg shadow-lg border border-gray-300"></div>
+    </div>
+
+
+    <!-- Geolocation Modal -->
+    <div id="geoModal" class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6 text-center">
+            <h2 class="text-xl font-bold text-yellow-700 mb-4">Autorisation de localisation requise</h2>
+            <p class="text-gray-700 mb-6">
+                Pour utiliser cette fonctionnalité, veuillez activer la géolocalisation sur votre appareil.
+            </p>
+            <button id="retryGeoBtn"
+                class="bg-yellow-700 hover:bg-yellow-800 text-white px-6 py-2 rounded-lg font-semibold transition">
+                Réessayer
+            </button>
+        </div>
     </div>
 
     <!-- Leaflet & Pusher JS -->
@@ -21,6 +43,9 @@
         let busRoutes = {}; // Store polylines for each bus
         let stopCoordinates = @json($bus->stops->sortBy('stop_order')->values());
         let routePoints = [];
+        let aller = [];
+        let retour = [];
+
 
         const busId = parseInt('{{$bus->id}}');
         // Initialize the map with user's location
@@ -50,7 +75,7 @@
                     },
                     function(error) {
                         console.error("Error getting location:", error);
-                        alert("Unable to retrieve your location.");
+                        document.getElementById("geoModal").classList.remove("hidden");
                     }, {
                         enableHighAccuracy: true,
                         timeout: 5000,
@@ -58,7 +83,7 @@
                     }
                 );
             } else {
-                alert("Geolocation is not supported by your browser.");
+                document.getElementById("geoModal").classList.remove("hidden");
             }
         }
 
@@ -87,7 +112,6 @@
             });
 
             var channel = pusher.subscribe(`channel{{$bus->id}}`);
-            console.log(`channel{{$bus->id}}`);
             channel.bind(`event`, function(data) {
                 console.log("Received update:", data);
                 let busId = data.bus_id;
@@ -112,64 +136,56 @@
         }
 
         function stops() {
+            const aller = [];
+            const retour = [];
+
             stopCoordinates.forEach(stop => {
                 if (stop.latitude && stop.longitude) {
-                    let latLng = [parseFloat(stop.latitude), parseFloat(stop.longitude)];
-                    routePoints.push(latLng);
-                    // Optional: marker for each stop
-                    L.marker([parseFloat(stop.latitude), parseFloat(stop.longitude)], {
+                    const latLng = [parseFloat(stop.latitude), parseFloat(stop.longitude)];
+
+                    if (stop.direction === 'aller') {
+                        aller.push(latLng);
+                    } else {
+                        retour.push(latLng);
+                    }
+
+                    // Marker for each stop
+                    L.marker(latLng, {
                         icon: stopIcon
                     }).addTo(map).bindPopup(stop.name);
                 }
             });
-            let stopLine = L.polyline(routePoints, {
+
+            // Draw lines for both directions
+            const allerstopLine = L.polyline(aller, {
                 color: 'blue',
                 weight: 4,
                 opacity: 0.8
             }).addTo(map);
 
-            // Auto-zoom to show the whole route
-            map.fitBounds(stopLine.getBounds());
-            // console.log(routePoints);
+            const retourstopLine = L.polyline(retour, {
+                color: 'red',
+                weight: 4,
+                opacity: 0.8
+            }).addTo(map);
+
+            // Zoom to fit both routes
+            let bounds = L.latLngBounds([]);
+            if (aller.length) bounds.extend(allerstopLine.getBounds());
+            if (retour.length) bounds.extend(retourstopLine.getBounds());
+
+            map.fitBounds(bounds);
         }
-        // Function to get and display the fastest route using OSRM
-        // function updateFastestRoute(busId, busLat, busLon) {
-        //     if (userMarker) {
-        //         let userLatLng = userMarker.getLatLng();
-        //         let busLatLng = L.latLng(busLat, busLon);
 
-        //         // OSRM Routing API (no API key required)
-        //         const osrmRouteUrl = `https://router.project-osrm.org/route/v1/driving/${userLatLng.lng},${userLatLng.lat};${busLon},${busLat}?overview=full&geometries=geojson`;
-
-        //         fetch(osrmRouteUrl)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 if (data.routes && data.routes.length > 0) {
-        //                     let routeCoordinates = data.routes[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
-
-        //                     // If a route for this bus already exists, update it
-        //                     if (busRoutes[busId]) {
-        //                         busRoutes[busId].setLatLngs(routeCoordinates);
-        //                     } else {
-        //                         // Create a new route line
-        //                         busRoutes[busId] = L.polyline(routeCoordinates, {
-        //                             color: "blue", // Route color
-        //                             weight: 5, // Line thickness
-        //                             opacity: 0.8, // Transparency
-        //                         }).addTo(map);
-        //                     }
-        //                 }
-        //             })
-        //             .catch(error => {
-        //                 console.error("Error fetching route:", error);
-        //             });
-        //     }
-        // }
 
         // Initialize everything
         document.addEventListener("DOMContentLoaded", function() {
             initializeMap();
             getbuslocation();
+        });
+        document.getElementById('retryGeoBtn').addEventListener('click', function() {
+            document.getElementById('geoModal').classList.add('hidden');
+            initializeMap(); // Try again
         });
     </script>
 </x-app>

@@ -28,18 +28,22 @@
                         class="block py-2 px-4 hover:text-yellow-200 font-bold">Dashboard</a>
                 </li>
                 <li>
-                    <a href="{{ route('stop.index') }}"
+                    <a href="{{ route('buses.index') }}"
                         class="block py-2 px-4 hover:text-yellow-200 font-bold">Liste des bus</a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('buses.create') }}"
                         class="block py-2 px-4 hover:text-yellow-200 font-bold">Ajouter un bus</a>
+                </li>
+                <li>
+                    <a href="{{ route('stops.index') }}"
+                        class="block py-2 px-4 hover:text-yellow-200 font-bold">Ajouter des arrêts</a>
                 </li>
                 <li>
                     <form action="{{ route('admin.logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit"
-                            class="flex items-center gap-2 py-2 px-4 bg-red-600 text-white hover:bg-red-700 rounded font-bold transition">
+                            class="flex items-center gap-2 py-2 px-4 bg-red-700 text-white hover:bg-red-800 rounded font-bold transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"

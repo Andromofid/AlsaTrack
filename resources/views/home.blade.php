@@ -1,6 +1,6 @@
 <x-app>
     <!-- Header Section -->
-    <div class="relative w-full h-[90vh] flex flex-col lg:flex-row items-center bg-gray-100 px-6 sm:px-10">
+    <div class="relative w-full h-[90vh] flex flex-col lg:flex-row items-center bg-gray-100 px-6 sm:px-10 mt-19">
         <!-- Left Side: Text -->
         <div class="w-full lg:w-1/2 text-center lg:text-left">
             <p class="text-yellow-800 text-4xl sm:text-6xl font-extrabold leading-tight">
@@ -36,27 +36,32 @@
     </div>
 
     <!-- Bus Selection Section -->
-    <div class="text-center py-6" id="start">
-        <h1 class="text-3xl font-bold text-yellow-700">Choisissez votre bus</h1>
-        <p class="text-gray-600 text-lg mt-2">
+    <div class="text-center py-6 mt-5" id="start">
+        <h1 class="text-yellow-800 text-xl sm:text-4xl font-extrabold leading-tight">Choisissez votre bus</h1>
+        <p class="text-gray-600 text-xl mt-2">
             Sélectionnez un bus pour voir son itinéraire et suivre son emplacement en temps réel.
         </p>
     </div>
 
+    <!-- Bus Selection Section -->
     <div class="max-w-4xl mx-auto p-4">
-        <div class=" grid grid-cols-2  md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-            @foreach($bus->sortBy('n_bus') as $bu)
-            <a href="{{route('bus.track',$bu->id) }}"
-                class="mx-auto flex flex-col items-center justify-center h-20 w-20 sm:h-24 sm:w-24 bg-yellow-700 text-white text-lg sm:text-xl font-bold rounded-lg shadow-md cursor-pointer hover:bg-yellow-900 transition duration-300">
-                <!-- Bus Icon -->
+        <div id="bus-grid"
+            class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+            @foreach($bus->sortBy('n_bus') as $index => $bu)
+            <a
+                href="{{ route('bus.track', $bu->id) }}"
+                class="bus-card opacity-0 translate-y-6 transition-all duration-700 ease-in-out mx-auto flex flex-col items-center justify-center h-20 w-20 sm:h-24 sm:w-24 bg-yellow-700 text-white text-lg sm:text-xl font-bold rounded-lg shadow-md cursor-pointer hover:bg-yellow-900"
+                style="transition-delay: {{ $bu->id * 100 }}ms;">
                 <svg class="w-6 h-6 sm:w-8 sm:h-8 mb-1" fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 3H6C3.8 3 2 4.8 2 7V16C2 17.1 2.9 18 4 18V20C4 20.6 4.4 21 5 21H7C7.6 21 8 20.6 8 20V18H16V20C16 20.6 16.4 21 17 21H19C19.6 21 20 20.6 20 20V18C21.1 18 22 17.1 22 16V7C22 4.8 20.2 3 18 3ZM6 5H18C19.1 5 20 5.9 20 7V8H4V7C4 5.9 4.9 5 6 5ZM18 14H6C5.4 14 5 13.6 5 13V10H19V13C19 13.6 18.6 14 18 14Z"></path>
                 </svg>
-                <!-- Bus Number -->
+
+                <!-- Number -->
                 {{ $bu->n_bus }}
             </a>
             @endforeach
         </div>
     </div>
+
 
 </x-app>

@@ -10,7 +10,7 @@ class Stop extends Model
     use HasFactory;
 
     protected $fillable = [
-        'buc_id',
+        'bus_id',
         'latitude',
         'longitude',
         'name',
@@ -19,7 +19,7 @@ class Stop extends Model
     ];
     public function bus()
 {
-    return $this->belongsTo(Buc::class);
+    return $this->belongsTo(Bus::class);
 }
 
 }

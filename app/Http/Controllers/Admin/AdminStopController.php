@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Buc;
+use App\Http\Controllers\Controller;
+use App\Models\Bus;
 use App\Models\Stop;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Bus;
 
-class StopController extends Controller
+class AdminStopController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $buses = Buc::all(); 
+        $buses = Bus::all(); 
         return view('admin.stops.index', compact('buses'));
     }
 
@@ -23,8 +23,8 @@ class StopController extends Controller
      */
     public function create(Request $request)
     {
-        $bucs_id = $request->query('bucs_id');
-        $bus = Buc::find($bucs_id);
+        $bus_id = $request->query('bus_id');
+        $bus = Bus::find($bus_id);
         if ($bus) {
             return view('admin.stops.create', compact('bus'));
         } else {
@@ -39,21 +39,15 @@ class StopController extends Controller
     {
 
         $data = $request->validate([
-            'bucs_id' => 'required|exists:bucs,id',
+            'bus_id' => 'required|exists:buses,id',
             'name' => 'required|string|max:255',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
             'stop_order' => 'nullable|integer',
             'direction' => 'required|string'
         ]);
-        Stop::create([
-            'buc_id' => $request->bucs_id,
-            'name' => $request->name,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'stop_order' => $request->stop_order,
-            'direction' => $request->direction
-        ]);
+        // dd($data['bus_id']);
+        Stop::create($data);
 
         return redirect()->back()->with('success', 'Stop added successfully!');
     }

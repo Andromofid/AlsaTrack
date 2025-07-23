@@ -3,11 +3,13 @@
     <p style="color:green" class="m-auto">{{ session('success') }}</p>
     @endif
 
-    <form method="POST" action="{{ route('stop.store') }}" class="p-5 ">
+    <form method="POST" action="{{ route('stops.store') }}" class="p-5 ">
         @csrf
 
-        <input type="hidden" name="bucs_id" value="{{ $bus->id }}">
-        <h1 class="text-center">Add Stop to Bus ID: {{ $bus->n_bus }}</h1>
+        <input type="hidden" name="bus_id" value="{{ $bus->id }}">
+        <div class="text-center py-6" id="start">
+            <h1 class="text-3xl font-bold text-black-900"> Add Stop to Bus ID: <span class="text-yellow-700"> {{ $bus->n_bus }} </span> 🚌</h1>
+        </div>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Stop Name</label>
@@ -86,7 +88,7 @@
                         {{$stop->longitude}}
                     </td>
                     <td class="px-6 py-4">
-                        <form action="{{ route('stop.destroy', $stop->id) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet arrêt ?');">
+                        <form action="{{ route('stops.destroy', $stop->id) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet arrêt ?');">
                             @csrf
                             @method('DELETE')
                             <button class="flex items-center gap-1 text-red-600 hover:underline font-medium" type="submit">

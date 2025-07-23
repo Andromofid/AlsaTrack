@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminBusController;
+use App\Http\Controllers\Admin\AdminStopController;
 use App\Http\Controllers\BusTrackingController;
 use App\Http\Controllers\StopController;
 use App\Models\Buc;
+use App\Models\Bus;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,27 +19,29 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// for users
+
+
+//======================== FOR USER ============================ // :
 Route::get('/', function () {
-    $bus = Buc::all();
+    $bus = Bus::all();
     return view('home', compact('bus'));
 });
 Route::get('/tracking/{bus}', [BusTrackingController::class, 'index'])->name('bus.track');
-// for bus:
+
+//======================== FOR BUS ============================= // :
 Route::get('/bus/{bus}', function ($bus) {
-    $bus = Buc::find($bus);
-    return view('bus', compact('bus'));
+    $bus = Bus::find($bus);
+    return view('bus.bus', compact('bus'));
 });
 
-// for admin :
+//======================== FOR ADMIN =========================== // :
 Route::middleware('admin.guest')->group(function () {
     Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 });
-
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-// Protected admin area (example)
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
-    Route::resource('stop', StopController::class);
+    Route::resource('stops', AdminStopController::class);
+    Route::resource('buses', AdminBusController::class);
 });

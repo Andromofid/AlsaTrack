@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\Buc;
+use App\Models\Bus;
 
 class AdminAuthController extends Controller
 {
     public function dashboard()
     {
-        $busCount = Buc::count(); // Or Bus if your model is named that
+        $busCount = Bus::count(); // Or Bus if your model is named that
         return view('admin.dashboard', compact('busCount'));
     }
     public function showLoginForm()

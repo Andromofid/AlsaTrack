@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\BusLocationUpdated; // ✅ Make sure this import is correct
 use App\Models\Buc;
+use App\Models\Bus;
 
 class BusTrackingController extends Controller
 {
     public function index($id)
     {
-        $bus = Buc::find($id);
+        $bus = Bus::find($id);
 
         return view('tracking', compact('bus'));
     }

@@ -35,6 +35,42 @@
 
         @include('components.footer')
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nav = document.getElementById('main-nav');
+            if (!nav) return;
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 10) {
+                    nav.classList.add('bg-yellow-900/50', 'shadow-lg', 'backdrop-blur-md');
+                    nav.classList.remove('bg-yellow-900');
+                } else {
+                    nav.classList.remove('bg-yellow-900/50', 'shadow-lg', 'backdrop-blur-md');
+                    nav.classList.add('bg-yellow-900');
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.bus-card');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('opacity-0', 'translate-y-6');
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        observer.unobserve(entry.target); // animate only once
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            cards.forEach(card => observer.observe(card));
+        });
+    </script>
+
+</body>
+
 </body>
 
 </html>
