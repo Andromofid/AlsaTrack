@@ -3,12 +3,20 @@
     <p class="text-green-600 text-center my-4">{{ session('success') }}</p>
     @endif
 
-    
+    <!-- Hero Section with Background -->
+    <section class="relative h-[30vh] bg-cover bg-center flex items-center justify-center text-center px-4"
+        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('{{ asset('header3.jpg') }}');">
+        <div class="absolute inset-0 bg-black/50"></div>
+
+        <div class="relative z-10 max-w-3xl text-white">
+            <h1 class="text-3xl font-bold text-yellow-700"> 🚌 Liste des bus</h1>
+            <p class="text-black-900 text-lg mt-2">
+                Sélectionnez un bus pour voir son arrêts et suivre son emplacement.
+            </p>
+        </div>
+    </section>
     <div class="text-center py-6" id="start">
-        <h1 class="text-3xl font-bold text-yellow-700"> 🚌 Liste des bus</h1>
-        <p class="text-black-900 text-lg mt-2">
-            Sélectionnez un bus pour voir son arrêts et suivre son emplacement.
-        </p>
+
     </div>
     <!-- Tableau des bus -->
     <div class="relative overflow-x-auto shadow-md rounded-lg p-5">

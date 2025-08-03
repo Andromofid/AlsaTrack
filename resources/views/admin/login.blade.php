@@ -38,7 +38,7 @@
 
                 <!-- Submit -->
                 <button type="submit"
-                    class="w-full bg-yellow-700 hover:bg-yellow-900 text-white font-semibold py-2 px-4 rounded transition">
+                    class="w-full bg-yellow-700 hover:bg-yellow-900 text-white font-semibold py-2 px-4  transition rounded-lg shadow-lg">
                     Connexion
                 </button>
             </form>

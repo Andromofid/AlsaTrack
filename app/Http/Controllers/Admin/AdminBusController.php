@@ -78,7 +78,7 @@ class AdminBusController extends Controller
         if ($bus) {
             $bus->stops()->delete();
             $bus->delete();
-            return view('admin.buses.index', compact('buses'));
+            return redirect()->route('buses.index')->with('success', 'Bus deleted successfully.');
         }
         return back();
     }

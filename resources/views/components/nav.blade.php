@@ -34,7 +34,7 @@
                     <a href="#" class="block py-2 px-4 hover:text-yellow-200 font-bold">Tarifs</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 px-4 hover:text-yellow-200 font-bold">Contact</a>
+                    <a href="{{route('contact')}}" class="block py-2 px-4 hover:text-yellow-200 font-bold">Contact</a>
                 </li>
                 <li>
                     <a onclick="document.getElementById('start').scrollIntoView({ behavior: 'smooth' });"

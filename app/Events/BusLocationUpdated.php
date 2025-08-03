@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Bus;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -15,12 +16,14 @@ class BusLocationUpdated implements ShouldBroadcastNow // ✅ Now it broadcasts 
     public $bus_id;
     public $longitude;
     public $latitude;
-
+    public $num_bus;
+    
     public function __construct($bus_id, $latitude, $longitude)
     {
         $this->bus_id = $bus_id;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
+        $this->num_bus = Bus::find($this->bus_id)->n_bus;
     }
 
     // ✅ Make sure this matches the channel in JavaScript

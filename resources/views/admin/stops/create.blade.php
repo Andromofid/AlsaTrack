@@ -2,14 +2,22 @@
     @if(session('success'))
     <p style="color:green" class="m-auto">{{ session('success') }}</p>
     @endif
+<!-- Hero Section with Background -->
+    <section class="relative h-[30vh] bg-cover bg-center flex items-center justify-center text-center px-4"
+        style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url('{{ asset('header3.jpg') }}');">
+        <div class="absolute inset-0 bg-black/50"></div>
 
+        <div class="relative z-10 max-w-3xl text-white">
+            <div class="text-center py-6" id="start">
+            <h1 class="text-3xl font-bold text-black-900"> Add Stop to Bus ID: <span class="text-yellow-700"> {{ $bus->n_bus }} </span> 🚌</h1>
+        </div>
+        </div>
+    </section>
     <form method="POST" action="{{ route('stops.store') }}" class="p-5 ">
         @csrf
 
         <input type="hidden" name="bus_id" value="{{ $bus->id }}">
-        <div class="text-center py-6" id="start">
-            <h1 class="text-3xl font-bold text-black-900"> Add Stop to Bus ID: <span class="text-yellow-700"> {{ $bus->n_bus }} </span> 🚌</h1>
-        </div>
+        
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Stop Name</label>

@@ -115,6 +115,7 @@
             channel.bind(`event`, function(data) {
                 console.log("Received update:", data);
                 let busId = data.bus_id;
+                let n_bus = data.num_bus;
                 let latitude = parseFloat(data.latitude);
                 let longitude = parseFloat(data.longitude);
 
@@ -127,7 +128,7 @@
                             icon: busIcon
                         })
                         .addTo(map)
-                        .bindPopup(`Bus ${busId}`);
+                        .bindPopup(`Bus ${n_bus}`);
                 }
 
                 // Get and update the fastest route

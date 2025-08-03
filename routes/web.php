@@ -4,9 +4,12 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminBusController;
 use App\Http\Controllers\Admin\AdminStopController;
 use App\Http\Controllers\BusTrackingController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StopController;
 use App\Models\Buc;
 use App\Models\Bus;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,12 +25,10 @@ use Illuminate\Support\Facades\Route;
 
 
 //======================== FOR USER ============================ // :
-Route::get('/', function () {
-    $bus = Bus::all();
-    return view('home', compact('bus'));
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tracking/{bus}', [BusTrackingController::class, 'index'])->name('bus.track');
-
+Route::get('/contact}', [ContactController::class, 'showContactForm'])->name('contact');
+Route::post('/contact', [ContactController::class, 'sendContactMessage'])->name('contact.send');
 //======================== FOR BUS ============================= // :
 Route::get('/bus/{bus}', function ($bus) {
     $bus = Bus::find($bus);

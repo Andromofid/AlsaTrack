@@ -38,7 +38,19 @@
     <div class="max-w-5xl mx-auto px-4">
         <div id="map" class="w-full h-[500px] rounded-xl shadow-md border border-gray-300"></div>
     </div>
-
+    <!-- Geolocation Modal -->
+    <div id="geoModal" class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6 text-center">
+            <h2 class="text-xl font-bold text-yellow-700 mb-4">Autorisation de localisation requise</h2>
+            <p class="text-gray-700 mb-6">
+                Pour utiliser cette fonctionnalité, veuillez activer la géolocalisation sur votre appareil.
+            </p>
+            <button id="retryGeoBtn"
+                class="bg-yellow-700 hover:bg-yellow-800 text-white px-6 py-2 rounded-lg font-semibold transition">
+                Réessayer
+            </button>
+        </div>
+    </div>
     <!-- Leaflet & Pusher JS (Do not touch) -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
@@ -77,7 +89,7 @@
                     },
                     function(error) {
                         console.error("Error getting location:", error);
-                        alert("Unable to retrieve bus location.");
+                       document.getElementById("geoModal").classList.remove("hidden");
                     }, {
                         enableHighAccuracy: true,
                         timeout: 5000,
@@ -85,7 +97,8 @@
                     }
                 );
             } else {
-                alert("Geolocation is not supported by your browser.");
+                // alert("Geolocation is not supported by your browser.");
+                document.getElementById("geoModal").classList.remove("hidden");
             }
         }
 

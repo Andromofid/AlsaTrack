@@ -30,6 +30,23 @@
 
         <!-- Page Content -->
         <main>
+            @if(session('error'))
+            <div class="fixed top-6 right-6 mt-14 z-50 bg-red-50 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-lg shadow-xl flex items-center gap-3 animate-fade-in" role="alert" style="min-width: 280px;">
+                <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                </svg>
+                <span class="block sm:inline">{{ __('Erreur :') }} {{ session('error') }}</span>
+            </div>
+            @endif
+
+            @if(session('success'))
+            <div class="fixed top-6 right-6 mt-14 z-50 bg-green-50 border-l-4 border-green-500 text-green-800 px-6 py-4 rounded-lg shadow-xl flex items-center gap-3 animate-fade-in" role="alert" style="min-width: 280px;">
+                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2l4-4m6 2a9 9 0 11-18 0a9 9 0 0118 0z" />
+                </svg>
+                <span class="block sm:inline">{{ __('Succès :') }} {{ session('success') }}</span>
+            </div>
+            @endif
             {{ $slot }}
         </main>
 
